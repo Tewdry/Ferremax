@@ -1,0 +1,35 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Mis Pedidos{% endblock title %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <h2>Mis Pedidos</h2>
+    {% if order_details %}
+        {% for order_detail in order_details %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Pedido {{ order_detail.order.id }}</h5>
+                    <p class="card-text">Fecha: {{ order_detail.order.created_at }}</p>
+                    <p class="card-text">Estado: {{ order_detail.order.get_status_display }}</p>
+                    <p class="card-text">Total: ${{ order_detail.order.total_amount|floatformat:2 }}</p>
+                    <h6>Productos:</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for title, details in order_detail.product_details.items %}
+                            <li class="list-group-item">
+                                <div class="d-flex justify-content-between">
+                                    <span>{{ title }}</span>
+                                    <span>{{ details.quantity }} x ${{ details.price|floatformat:2 }}</span>
+                                </div>
+                                <small class="text-muted">Subtotal: ${{ details.subtotal|floatformat:2 }}</small>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No tienes pedidos realizados.</p>
+    {% endif %}
+</div>
+{% endblock %}

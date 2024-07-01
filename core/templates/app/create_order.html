@@ -1,0 +1,22 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block main-content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Crear Pedido</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Crear Pedido</button>
+  </form>
+  
+  <!-- Debugging Information -->
+  {% if request.method == 'POST' %}
+  <div class="alert alert-info mt-4">
+    <h4>Debugging Info</h4>
+    <p>Order ID: {{ order.id if order else 'N/A' }}</p>
+    <p>Cart Items: {{ cart_items }}</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock main-content %}

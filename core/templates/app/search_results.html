@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+{% block title %}Resultados de la búsqueda{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+    <h2>Resultados de la búsqueda para "{{ request.GET.q }}"</h2>
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.title }}</h5>
+                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">Ver detalles</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No se encontraron productos que coincidan con tu búsqueda.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main-content %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block main-content %}
+<h1>Editar Pedido {{ order.id }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+</form>
+<a href="{% url 'admin_order_list' %}" class="btn btn-secondary">Volver a la lista de pedidos</a>
+{% endblock main-content %}

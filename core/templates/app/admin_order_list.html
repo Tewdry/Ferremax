@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block main-content %}
+<h1>Administrar Órdenes</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.user.username }}</td>
+            <td>{{ order.total_amount }}</td>
+            <td>
+                <form method="post" action="{% url 'change_order_status' order.id %}">
+                    {% csrf_token %}
+                    <select name="status">
+                        <option value="pending" {% if order.status == 'pending' %} selected {% endif %}>Pendiente</option>
+                        <option value="processing" {% if order.status == 'processing' %} selected {% endif %}>Procesando</option>
+                        <option value="completed" {% if order.status == 'completed' %} selected {% endif %}>Completada</option>
+                        <!-- Agrega más opciones según los estados que tengas -->
+                    </select>
+                    <button type="submit">Guardar</button>
+                </form>
+            </td>
+            <td>
+                <a href="{% url 'admin_order_edit' order.id %}">Editar</a>
+                <a href="{% url 'admin_order_delete' order.id %}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock main-content %}

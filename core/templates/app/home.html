@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+<<<<<<< HEAD
+
+{% block title %}Inicio{% endblock title %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <div class="jumbotron text-center bg-light p-5">
+        <h1 class="display-4">¡Bienvenido a Ferremas!</h1>
+        <p class="lead">Tu tienda de herramientas y materiales de construcción de confianza.</p>
+        <hr class="my-4">
+        <p>Descubre nuestra amplia gama de productos y ofertas especiales.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'category' 'HR' %}" role="button">Herramientas Manuales</a>
+        <a class="btn btn-success btn-lg" href="{% url 'category' 'MB' %}" role="button">Materiales Básicos</a>
+        <a class="btn btn-warning btn-lg" href="{% url 'category' 'SG' %}" role="button">Equipos de Seguridad</a>
+    </div>
+</div>
+{% endblock main-content %}
+=======
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+
+>>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f
