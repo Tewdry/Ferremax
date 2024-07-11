@@ -1,0 +1,7 @@
+<div class="list-group">
+    <a href="{% url 'profile' %}" class="list-group-item list-group-item-action {% if request.path == '/profile/' %}active{% endif %}">Perfil</a>
+    <a href="{% url 'address' %}" class="list-group-item list-group-item-action {% if request.path == '/address/' %}active{% endif %}">Dirección</a>
+    <a href="{% url 'profile_orders' %}" class="list-group-item list-group-item-action {% if request.path == '/profile/orders/' %}active{% endif %}">Órdenes</a>
+    <a href="{% url 'favorites' %}" class="list-group-item list-group-item-action {% if request.path == '/favorites/' %}active{% endif %}">Favoritos</a>
+    <a href="{% url 'reviews' %}" class="list-group-item list-group-item-action {% if request.path == '/reviews/' %}active{% endif %}">Reseñas</a>
+</div>

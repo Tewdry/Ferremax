@@ -1,0 +1,60 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Añadir Dirección{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <h3>Añadir Dirección para <span class="text-capitalize">{{ request.user }}</span></h3>
+        <div class="col-md-3">
+            {% include 'app/profile_menu.html' %}
+        </div>
+        <div class="col-md-9">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.name.label_tag }} {{ form.name }}
+                </div>
+                <div class="mb-3">
+                    {{ form.locality.label_tag }} {{ form.locality }}
+                </div>
+                <div class="mb-3">
+                    {{ form.city.label_tag }} {{ form.city }}
+                </div>
+                <div class="mb-3">
+                    {{ form.mobile.label_tag }} {{ form.mobile }}
+                </div>
+                <div class="mb-3">
+                    {{ form.zipcode.label_tag }} {{ form.zipcode }}
+                </div>
+                <div class="mb-3">
+                    {{ form.state.label_tag }} {{ form.state }}
+                </div>
+                <div class="mb-3">
+                    {{ form.comuna.label_tag }} {{ form.comuna }}
+                </div>
+                <button type="submit" class="btn btn-primary">Añadir Dirección</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_state').change(function() {
+            var url = '{% url "ajax_load_comunas" %}';
+            var regionId = $(this).val();
+            $.ajax({
+                url: url,
+                data: {
+                    'region_id': regionId
+                },
+                success: function(data) {
+                    $('#id_comuna').html(data.map(comuna => `<option value="${comuna.id}">${comuna.name}</option>`));
+                }
+            });
+        });
+    });
+</script>
+{% endblock main-content %}

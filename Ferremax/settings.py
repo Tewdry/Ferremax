@@ -12,10 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-<<<<<<< HEAD
 import paypalrestsdk
-=======
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,10 +42,9 @@ INSTALLED_APPS = [
     
     #Custom Apps
     'core',
-<<<<<<< HEAD
     'rest_framework',
-=======
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f
+    'crispy_forms',
+    'crispy_bootstrap5',  
 ]
 
 MIDDLEWARE = [
@@ -74,10 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-<<<<<<< HEAD
                 'core.context_processors.cart_item_count',
-=======
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f
             ],
         },
     },
@@ -132,8 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+
 LOGIN_REDIRECT_URL = '/profile/'
 
 # Default primary key field type
@@ -143,7 +138,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-<<<<<<< HEAD
 # settings.py
 
 # Añade las siguientes líneas al final del archivo
@@ -159,5 +153,7 @@ paypalrestsdk.configure({
     "client_id": PAYPAL_CLIENT_ID,
     "client_secret": PAYPAL_CLIENT_SECRET
 })
-=======
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"

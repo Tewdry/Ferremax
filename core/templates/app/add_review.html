@@ -1,0 +1,29 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Añadir Reseña{% endblock title %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <h2>Añadir Reseña para {{ product.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="content">Comentario:</label>
+            <textarea name="content" class="form-control" rows="4" required>{{ form.content.value }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="rating">Calificación:</label>
+            <select name="rating" class="form-control" required>
+                <option value="" disabled selected>Selecciona una calificación</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <input type="hidden" name="order_id" value="{{ order_id }}">
+        <button type="submit" class="btn btn-primary mt-3">Guardar Reseña</button>
+    </form>
+</div>
+{% endblock %}

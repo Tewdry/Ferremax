@@ -1,0 +1,56 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Detalles del Pedido{% endblock title %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Pedido {{ order.id }}</h5>
+            <p class="card-text">Fecha: {{ order.created_at }}</p>
+            <p class="card-text">Estado: <span class="badge {% if order.status == 'completed' %}bg-success{% else %}bg-warning{% endif %}">{{ order.get_status_display }}</span></p>
+            <p class="card-text">Total: ${{ order.total_amount|floatformat:2 }}</p>
+            <p class="card-text">Fecha estimada de entrega: <span class="badge bg-warning">{{ order.estimated_delivery_date|date:"F j, Y" }}</span></p>
+            <h6>Productos:</h6>
+            <ul class="list-group list-group-flush">
+                {% for item in order_items %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <a href="{% url 'product_detail' item.product.id %}" style="text-decoration: none; color: inherit;">
+                                {% if item.product.product_image %}
+                                    <img src="{{ item.product.product_image.url }}" alt="{{ item.product.title }}" class="img-thumbnail" style="width: 100px; height: 100px;">
+                                {% else %}
+                                    <img src="{% static 'path/to/default-image.jpg' %}" alt="{{ item.product.title }}" class="img-thumbnail" style="width: 100px; height: 100px;">
+                                {% endif %}
+                                <span style="color: black;">{{ item.product.title }}</span>
+                            </a>
+                            <br>
+                            <small class="text-muted">Subtotal: ${{ item.quantity|multiply:item.price|floatformat:2 }}</small>
+                        </div>
+                        <div>
+                            <span>{{ item.quantity }} x ${{ item.price|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                    {% if order.status == 'completed' and not product_reviews_exist|get_item:item.product.id %}
+                        <form action="{% url 'add_review' item.product.id order.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Añadir Reseña</button>
+                        </form>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+            <hr>
+            <h4>Actualizaciones del pedido:</h4>
+            <ul class="list-group list-group-flush">
+                {% for update in order_updates %}
+                <li class="list-group-item">{{ update.update_date|date:"F j, Y, g:i a" }} - {{ update.status }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,62 +1,80 @@
 {% extends 'app/base.html' %}
 {% load static %}
-<<<<<<< HEAD
 {% block title %}{{ product.title }}{% endblock title %}
-
 {% block main-content %}
-    <div class="container my-5">
-        <div class="row justify-content-between">
-            <div class="col-lg-5 mb-5">
-                <img src="{{ product.product_image.url }}" class="img-fluid w-100" alt="{{ product.title }}">
-            </div>
-            <div class="col-lg-6">
-                <h1 class="display-4" style="font-family: Georgia, serif;">{{ product.title }}</h1>
-                <h5 class="text-danger fw-bold">Precio: ${{ product.discounted_price }}</h5>
-                <small class="text-muted fs-5 text-decoration-line-through"><del>Precio: ${{ product.selling_price }}</del></small>
-                <br><br>
-                <h4>Características del Producto</h4>
-                <ul class="fs-5" style="font-family: 'Rajdhani', sans-serif;">
-                    <li>{{ product.description }}</li>
-                </ul>
-                <div class="d-flex align-items-center mt-4">
-                    <form action="{% url 'add_to_cart' %}" method="GET" class="me-3">
-                        <input type="hidden" name="prod_id" value="{{ product.id }}">
-                        <button type="submit" class="btn btn-danger btn-lg">Añadir al Carrito</button>
-                    </form>
-                    <a href="{% url 'checkout' %}" class="btn btn-warning btn-lg">Comprar Ahora</a>
-                </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 text-center">
+            {% if product.product_image %}
+                <img class="img-fluid rounded" src="{{ product.product_image.url }}" alt="{{ product.title }}" style="max-width: 80%; height: auto;">
+            {% else %}
+                <img class="img-fluid rounded" src="{% static 'path/to/default-image.jpg' %}" alt="{{ product.title }}" style="max-width: 80%; height: auto;">
+            {% endif %}
+            <div class="mt-3">
+                <h4>Calificación Promedio: {{ avg_rating|default:"Sin calificación" }}</h4>
+                {% if avg_rating %}
+                    <div class="rating">
+                        {% for i in "12345" %}
+                            <span class="fa fa-star{% if avg_rating < forloop.counter %}-o{% endif %}"></span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
         </div>
-    </div>
-{% endblock main-content %}
-=======
-{% block title %}Category{% endblock title %}
-
-{% block main-content %}
-    <div class="container">
-        <div class="row flex justify-content-between">
-            <div class="img2 col-lg-5 mt-5">
-                <img src="{{product.product_image.url}}" class="image col-xs-6
-                col-sm-12 col-lg-12 mt-3 text-sm-center w-100 h-75" alt="">
+        <div class="col-lg-6">
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.description }}</p>
+            <p class="fw-bold">Precio: <span class="text-decoration-line-through">${{ product.price }}</span> ${{ product.discounted_price }}</p>
+            <div class="d-flex mb-3">
+                <form method="get" action="{% url 'add_to_cart' %}" class="me-2">
+                    <input type="hidden" name="prod_id" value="{{ product.id }}">
+                    <button type="submit" class="btn btn-success">Añadir al Carrito</button>
+                </form>
+                <form method="post" action="{% url 'add_to_favorites' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">Añadir a Favoritos</button>
+                </form>
             </div>
-            <div class="productdetail col-lg-5">
-                <h1 style="font-family: Georgia; font-size: 50px;">
-                    {{product.title}}</h1>
-                    <h5>Precio.{{product.discounted_price}}/-</h5>
-                    <small class="text-decoration-line-through text-muted fs-5"><del>
-                    Precio.{{product.selling_price}}/-</del></small>
-                    <br><br><h4>Caracteristicas del Producto</h4>
-                    <ul class="fs-5 style=font-family: Rajdhani;">
-                        <li>{{product.description}}</li>
-                    </ul>
-                        <form action="/add-to-cart" class="d-inline">
-                            <input tyle="hidden" name="prod_id" value="{{product.id}}" />
-                            <button type="submit" class="d-grid gap-2 btn1 btn btn-danger
-                            p-1 m-1 btn-lg text-decoration-none text-white">Añadir al Carrito</button>
-                        </form>
-                        <a href="{% url 'showcart' %}" class="btn btn-warning shadow px-5 py-2 ms-4">Comprar Ahora</a>
-            </div>
+            <hr>
+            {% if product.vendor %}
+                <h4>Vendedor: <a href="{% url 'vendor_detail' product.vendor.id %}">{{ product.vendor.name }}</a></h4>
+                <img src="{{ product.vendor.logo.url }}" alt="{{ product.vendor.name }}" style="max-width: 100px; height: auto;">
+            {% else %}
+                <h4>Vendedor: No disponible</h4>
+            {% endif %}
         </div>
     </div>
+    <div class="row mt-5">
+        <div class="col-lg-12">
+            <h4>Comentarios</h4>
+            {% if reviews %}
+                {% for review in reviews %}
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="card-title">{{ review.user.username }}</h5>
+                                    <p class="card-text">{{ review.content }}</p>
+                                    <p class="card-text">Calificación:
+                                        {% for i in "12345" %}
+                                            <span class="fa fa-star{% if review.rating < forloop.counter %}-o{% endif %}"></span>
+                                        {% endfor %}
+                                    </p>
+                                </div>
+                                {% if review.verified %}
+                                    <div>
+                                        <span class="badge bg-success">Verificado</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <p class="card-text"><small class="text-muted">{{ review.review_date }}</small></p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No hay comentarios disponibles.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock main-content %}
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f

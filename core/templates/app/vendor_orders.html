@@ -1,0 +1,34 @@
+<!-- app/templates/app/vendor_orders.html -->
+{% extends 'app/base.html' %}
+
+{% block title %}Mis Pedidos{% endblock %}
+
+{% block main-content %}
+<div class="container">
+    <h2>Mis Pedidos</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID del Pedido</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.username }}</td>
+                <td>{{ order.total_amount }}</td>
+                <td>{{ order.status }}</td>
+                <td>
+                    <a href="{% url 'edit_order' order.id %}" class="btn btn-primary">Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

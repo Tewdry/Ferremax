@@ -1,0 +1,34 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Tus Reseñas{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <h3>Reseñas de <span class="text-capitalize">{{ request.user }}</span></h3>
+        <div class="col-md-3">
+            {% include 'app/profile_menu.html' %}
+        </div>
+        <div class="col-md-9">
+            <h2 class="mb-4">Tus Reseñas</h2>
+            {% if review_statuses %}
+                {% for review_status in review_statuses %}
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ review_status.review.product.title }}</h5>
+                            <p class="card-text">{{ review_status.review.content }}</p>
+                            <p class="card-text">Calificación: {{ review_status.review.rating }}</p>
+                            <p class="card-text">{{ review_status.status }}</p>
+                            <small class="text-muted">{{ review_status.review.review_date|date:"F j, Y, g:i a" }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    No has escrito ninguna reseña.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

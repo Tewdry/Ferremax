@@ -1,6 +1,5 @@
 {% extends 'app/base.html' %}
 {% load static %}
-<<<<<<< HEAD
 {% block title %}API Data{% endblock title %}
 
 {% block main-content %}
@@ -90,79 +89,3 @@
         </script>
     </div>
 {% endblock main-content %}
-=======
-{% block title %}Category{% endblock title %}
-
-{% block main-content %}
-
-<!-- api_view.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API del Banco Central de Chile</title>
-    <!-- Aquí puedes incluir tus archivos CSS, JavaScript, etc. -->
-</head>
-<body>
-    <h1>Datos de la API del Banco Central de Chile</h1>
-    {% if data %}
-        <p>Indicadores disponibles:</p>
-        <ul>
-            {% for indicator, info in data.items %}
-                <li><strong>{{ indicator }}:</strong> {{ info.nombre }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Error al cargar los datos de la API.</p>
-    {% endif %}
-
-    <!-- Formulario para la conversión de moneda -->
-    <form id="currency_converter_form">
-        <label for="amount">Cantidad:</label>
-        <input type="number" id="amount" name="amount" required>
-        <label for="from_currency">De:</label>
-        <input type="text" id="from_currency" name="from_currency" required>
-        <label for="to_currency">A:</label>
-        <input type="text" id="to_currency" name="to_currency" required>
-        <button type="submit">Convertir</button>
-    </form>
-
-    <!-- Resultado de la conversión de moneda -->
-    <div id="conversion_result"></div>
-
-    <!-- Aquí puedes incluir tus archivos JavaScript para manejar la conversión de moneda -->
-    <script>
-        document.getElementById('currency_converter_form').addEventListener('submit', function(event) {
-            event.preventDefault();
-        
-            var form_data = new FormData(this);
-            fetch('/convert-currency/', {
-                method: 'GET',
-                body: form_data,
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data && data.error) {
-                    document.getElementById('conversion_result').innerHTML = '<p>Error: ' + data.error + '</p>';
-                } else if (data && data.result) {
-                    document.getElementById('conversion_result').innerHTML = '<p>Resultado: ' + data.result + '</p>';
-                } else {
-                    throw new Error('Respuesta no válida');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
-</body>
-</html>
-
-{% endblock main-content %}
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f

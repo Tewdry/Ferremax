@@ -1,0 +1,14 @@
+{% extends 'app/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Actualizar Estado del Pedido{% endblock title %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Actualizar Estado del Pedido #{{ order.id }}</h2>
+    <form method="post" class="p-4 shadow-sm rounded border">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+</div>
+{% endblock main-content %}

@@ -1,0 +1,61 @@
+{% extends 'app/base.html' %}
+{% block title %}Administrar Pedidos{% endblock title %}
+
+{% block main-content %}
+<div class="container my-5">
+    <h2>Administrar Pedidos</h2>
+    <form method="GET" action="{% url 'admin_order_search' %}" class="d-flex mb-4">
+        <input type="text" name="q" class="form-control me-2" placeholder="Buscar por ID de pedido" value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-secondary">Buscar</button>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID del Pedido</th>
+                <th>Usuario</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Fecha de Creación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.username }}</td>
+                <td>${{ order.total_amount }}</td>
+                <td>
+                    <span class="badge 
+                    {% if order.status == 'pending' %} bg-warning text-dark
+                    {% elif order.status == 'completed' %} bg-success
+                    {% elif order.status == 'processing' %} bg-primary
+                    {% elif order.status == 'shipped' %} bg-info
+                    {% elif order.status == 'in_transit' %} bg-primary
+                    {% elif order.status == 'out_for_delivery' %} bg-info
+                    {% elif order.status == 'delivered' %} bg-success
+                    {% elif order.status == 'delayed' %} bg-danger
+                    {% elif order.status == 'returned' %} bg-warning
+                    {% elif order.status == 'cancelled' %} bg-danger
+                    {% elif order.status == 'failed_delivery' %} bg-danger
+                    {% endif %}">
+                    {{ order.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ order.created_at }}</td>
+                <td>
+                    <a href="{% url 'order_detail' order.id %}" class="btn btn-primary">Ver</a>
+                    <a href="{% url 'update_order_status' order.id %}" class="btn btn-warning">Actualizar Estado</a>
+                    <a href="{% url 'delete_order' order.id %}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este pedido?');">Eliminar</a>
+                    <a href="{% url 'edit_order' order.id %}" class="btn btn-secondary">Editar</a> <!-- Botón de Editar -->
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No se encontraron pedidos que coincidan con tu búsqueda.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock main-content %}

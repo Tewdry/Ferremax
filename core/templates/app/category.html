@@ -7,19 +7,13 @@
         <div class="row">
             <div class="col-sm-3">
                 <div class="list-group">
-<<<<<<< HEAD
                     {% for val in titles %}
                         <a href="#" class="list-group-item list-group-item-action" aria-current="true">{{ val.title }}</a>
-=======
-                    {% for val in title %}
-                        <a href="#" class="list-group-item list-group-item-action" aria-current="true">{{val.title}}</a>
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f
                     {% endfor %}
                 </div>
             </div>
             <div class="col-sm-9">
                 <div class="row">
-<<<<<<< HEAD
                     {% for prod in products %}
                         <div class="col text-center mb-4">
                             <a href="{% url 'product_detail' prod.id %}" class="btn">
@@ -33,21 +27,6 @@
                                         </small>
                                     </div>
                                 </div>
-=======
-                    {% for prod in product %}
-                        <div class="col text-center mb-4">
-                            <a href="{% url 'product-detail' prod.id %}" class="btn">
-                            <div>
-                                <img src="{{prod.product_image.url}}" width="300px" height="200px" />
-                                <div class="fw-bold">{{prod.title}}</div>
-                                <div class="fw-bold text-danger">
-                                    Precio.{{prod.discounted_price}}
-                                    <small class="fw-light text-decoration-line-through">
-                                        {{prod.selling_price}}
-                                    </small>
-                                </div>
-                            </div>
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f
                             </a>
                         </div>
                     {% endfor %}
@@ -55,8 +34,4 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
 {% endblock main-content %}
-=======
-{% endblock main-content %}
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f

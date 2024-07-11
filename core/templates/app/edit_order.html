@@ -1,0 +1,96 @@
+{% extends 'app/base.html' %}
+{% block title %}Editar Pedido{% endblock title %}
+
+{% load custom_filters %}  <!-- Asegúrate de cargar custom_filters -->
+
+{% block main-content %}
+<div class="container mt-5">
+    <h2>Editar Pedido {{ order.id }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <h4>Productos</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order_items %}
+                <tr>
+                    <td>{{ item.product.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.price|floatformat:2 }}</td>
+                    <td>${{ item.quantity|multiply:item.price|floatformat:2 }}</td>
+                    <td>
+                        <a href="{% url 'edit_product' item.product.id %}" class="btn btn-secondary btn-sm">Editar Producto</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4>Reseñas</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Producto</th>
+                    <th>Reseña</th>
+                    <th>Calificación</th>
+                    <th>Verificado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td>{{ review.user.username }}</td>
+                    <td>{{ review.product.title }}</td>
+                    <td>{{ review.content }}</td>
+                    <td>{{ review.rating }}</td>
+                    <td>{{ review.verified }}</td>
+                    <td>
+                        <a href="{% url 'edit_review' review.id %}" class="btn btn-secondary btn-sm">Editar Reseña</a>
+                        <a href="{% url 'delete_review' review.id %}" class="btn btn-danger btn-sm">Eliminar Reseña</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4>Comentarios</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Comentario</th>
+                    <th>Verificado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.user.username }}</td>
+                    <td>{{ comment.text }}</td>
+                    <td>{{ comment.verified }}</td>
+                    <td>
+                        <a href="{% url 'edit_comment' comment.id %}" class="btn btn-secondary btn-sm">Editar Comentario</a>
+                        <a href="{% url 'delete_comment' comment.id %}" class="btn btn-danger btn-sm">Eliminar Comentario</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+</div>
+{% endblock %}

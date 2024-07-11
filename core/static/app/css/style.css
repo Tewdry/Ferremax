@@ -83,7 +83,6 @@
 
 .goodnesssec a{
     text-decoration: none;
-<<<<<<< HEAD
 }
 
 .card-header {
@@ -107,6 +106,56 @@
     display: block;
     margin-top: 0.5rem;
 }
-=======
+
+.btn-custom {
+    background-color: #007bff;
+    color: #fdfdfd;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
->>>>>>> 98aec02a70593aa42794e8f9f21285d80567ae6f
+
+.btn-custom:hover {
+    background-color: #0056b3;
+    color: #ffffff;
+}
+
+.product-image {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+
+.rating {
+    color: #f8ce0b;
+}
+
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    margin-bottom: 10px;
+}
+
+.card-text {
+    margin-bottom: 5px;
+}
+

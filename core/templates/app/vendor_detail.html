@@ -1,0 +1,44 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}{{ vendor.name }}{% endblock title %}
+{% block main-content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            {% if vendor.logo %}
+                <img class="img-fluid" src="{{ vendor.logo.url }}" alt="{{ vendor.name }}">
+            {% else %}
+                <img class="img-fluid" src="{% static 'path/to/default-logo.jpg' %}" alt="{{ vendor.name }}">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h2>{{ vendor.name }}</h2>
+            <p>{{ vendor.description }}</p>  <!-- Añadir descripción aquí -->
+            <hr>
+            <h4>Productos:</h4>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; overflow: hidden;">
+                                {% if product.product_image %}
+                                    <img src="{{ product.product_image.url }}" class="product-image" alt="{{ product.title }}" style="max-height: 100%; max-width: 100%;">
+                                {% else %}
+                                    <img src="{% static 'path/to/default-product.jpg' %}" class="product-image" alt="{{ product.title }}" style="max-height: 100%; max-width: 100%;">
+                                {% endif %}
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ product.title }}</h5>
+                                <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                                <div class="mt-auto">
+                                    <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary w-100">Ver detalles</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main-content %}

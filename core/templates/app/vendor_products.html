@@ -1,0 +1,33 @@
+{% extends "app/base.html" %}
+
+{% block title %}Mis Productos{% endblock %}
+
+{% block main-content %}
+<div class="container mt-5">
+    <h2>Mis Productos</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.product.title }}</td>
+                <td>{{ order.product.price }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>
+                    <a href="{% url 'edit_order' order.id %}" class="btn btn-primary btn-sm">Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
